@@ -1,6 +1,7 @@
 // Cloudflare Workers entry point.
-// Requests to /api/... go to the price API; everything else is the website in ./public.
-import { onRequestGet } from "./functions/api/[[path]].js";
+// /api/... goes to the price API in [[path]].js; the home page is index.html.
+import { onRequestGet } from "./[[path]].js";
+import PAGE from "./index.html";
 
 export default {
   async fetch(request, env, ctx) {
@@ -14,6 +15,9 @@ export default {
       const path = url.pathname.slice("/api/".length).split("/").filter(Boolean);
       return onRequestGet({ request, env, params: { path }, waitUntil: p => ctx.waitUntil(p) });
     }
-    return env.ASSETS.fetch(request);
+    if (url.pathname === "/" || url.pathname === "/index.html") {
+      return new Response(PAGE, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=300" } });
+    }
+    return new Response("Not found", { status: 404, headers: { "Content-Type": "text/plain" } });
   },
 };
