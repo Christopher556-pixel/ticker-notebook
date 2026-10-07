@@ -1,12 +1,5 @@
 {
-  // Cloudflare Workers setup: serves the website from ./public and the price API from worker.js.
-  // Your API keys are NOT stored here. Add them in Cloudflare under
-  // Settings -> Variables and Secrets as secrets named FINNHUB_KEY and TWELVEDATA_KEY.
   "name": "ticker-notebook",
   "main": "worker.js",
-  "compatibility_date": "2025-09-01",
-  "assets": {
-    "directory": "./public",
-    "binding": "ASSETS"
-  }
+  "compatibility_date": "2025-09-01"
 }
